@@ -8,7 +8,6 @@ class obstacle
 
 	obstacle(float x, float y, float speed, float h)
 	{
-		//System.out.println("h:" + h);
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
@@ -22,10 +21,8 @@ class obstacle
 
 	void doDraw()
 	{
-		//System.out.println("abcdef");
 		Brain.p.fill(255);
 		Brain.p.rect(x, y - sizey + 10, sizex, sizey);
-		//Brain.p.rect(x, y - 100, sizex, sizey);
 		
 	}
 

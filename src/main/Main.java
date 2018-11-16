@@ -10,10 +10,10 @@ public class Main extends PApplet
 	public static final int numPlayers = 100; // number of players per generation to spawn
 	public static final int topPlayers = 10; // number of players to resurrect from the grave and breed from
 
-	public final int minLayers = 2;
-	public final int maxLayers = 2;
-	public final int minNodes = 2;
-	public final int maxNodes = 2;
+	public final int minLayers = 1;
+	public final int maxLayers = 1;
+	public final int minNodes = 1;
+	public final int maxNodes = 1;
 	// end modifyable values
 
 	// variables below this line should not be changed
@@ -42,7 +42,6 @@ public class Main extends PApplet
 	public static void main(String[] args)
 	{
 		PApplet.main("main.Main");
-		// Functions.p = this;
 	}
 
 	public void settings()
@@ -70,18 +69,12 @@ public class Main extends PApplet
 	public void draw()
 	{
 		counter++;
-		//System.out.println("counter: " + counter);
 		if (counter >= next)
 		{
 			counter = 0;
 			next = (int) random(60f, 80f);
 			obstacles.add(new obstacle(width, height-20, -2f, 50f));
-			// obstacles.add(new obstacle(width, height, -20f, 2.5f, 50f));
-			//obstacles.add(new obstacle(width, height - 20, 2.5f, 50));
-
-			// obstacle(float x, float y, float speed, float h)
 		}
-		// println(obstacles.size());
 
 		background(0);
 		if (showT)
@@ -139,13 +132,10 @@ public class Main extends PApplet
 		{
 			Functions.doGeneration();
 		}
-		//System.out.println("obstacles: " + obstacles.size());
 
 		for (int i = obstacles.size() - 1; i >= 0; i--) // need to move all obstacles
 		{
-			// System.out.println("abc");
 			obstacle tmp = obstacles.get(i);
-			//System.out.println(tmp.toString());
 			tmp.doWork();
 			if (showOb)
 				tmp.doDraw();

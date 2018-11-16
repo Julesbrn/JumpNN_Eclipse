@@ -106,7 +106,6 @@ public class Brain
 			{
 				Node abc = new Node((layer + 1) * wdth + xpos, nNode * hght + ypos + hght / 2);
 				float val = p.random(-1.0f, 1.0f);
-				// println("val:" + val);
 				abc.setVal(val);
 				thisLayer.add(abc);
 			}

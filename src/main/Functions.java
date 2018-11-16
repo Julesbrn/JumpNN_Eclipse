@@ -172,20 +172,16 @@ public class Functions
 	      
 	    }
 	    g.thread.interrupt(); //kill the thread
-	    //g.destroyPlayer();
 	  }
 	  
-	  //System.out.println("pop: " + Main.population.size() + " gy: " + Main.graveYard.size());
 	  for (int i = Main.graveYard.size()-1; i >= 0; i-- )
 	  {
 		  Main.graveYard.remove(i); 
 	  }
-	  //System.out.println("pop: " + Main.population.size() + " gy: " + Main.graveYard.size());
 	  for (player g: Main.graveYard)
 	  {
 	    g.destroyPlayer();
 	  }
-	  //System.out.println("pop: " + Main.population.size() + " gy: " + Main.graveYard.size());
 	  Main.graveYard = new ArrayList<player>();
 	  System.gc();
 	}

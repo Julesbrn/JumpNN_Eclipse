@@ -18,7 +18,6 @@ class player
   Node[] outputLayer;
   
   float posy, posx, velx, vely, jumpSpeed, walkSpeed, up;
-  //float jumpspeed = 100;
   float sizex = 10;
   float sizey = 20;
   float r, g, b;
