@@ -23,7 +23,7 @@ class obstacle
 	{
 		Brain.p.fill(255);
 		Brain.p.rect(x, y - sizey + 10, sizex, sizey);
-		
+
 	}
 
 	public String toString()

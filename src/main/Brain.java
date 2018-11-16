@@ -143,22 +143,23 @@ public class Brain
 		}
 	}
 
-	void evolve() //to evolve a brain we either evolve a node or a line. Nodes mutate their bias. Lines mutate their weight
-	  {
-		int item = (int) p.random(0f,1f)*(brain.size()-1);
-		ArrayList<Node> tmp = brain.get(item+1);
-		int item2 = (int) p.random(0f,1f)*tmp.size();
-	   Node n = tmp.get(item2);
-	   
-	   if (p.random(0f,1f) > 0.5) 
-	   {
-	     n.evolveNode();
-	     return;
-	   }
-	   int item3 = (int) p.random(0f,1f)*n.lines.size();
-	   Line l = n.lines.get(item3);
-	   l.evolveLine();
-	  }
+	void evolve() // to evolve a brain we either evolve a node or a line. Nodes mutate their bias.
+					// Lines mutate their weight
+	{
+		int item = (int) p.random(0f, 1f) * (brain.size() - 1);
+		ArrayList<Node> tmp = brain.get(item + 1);
+		int item2 = (int) p.random(0f, 1f) * tmp.size();
+		Node n = tmp.get(item2);
+
+		if (p.random(0f, 1f) > 0.5)
+		{
+			n.evolveNode();
+			return;
+		}
+		int item3 = (int) p.random(0f, 1f) * n.lines.size();
+		Line l = n.lines.get(item3);
+		l.evolveLine();
+	}
 
 	void doDraw()
 	{

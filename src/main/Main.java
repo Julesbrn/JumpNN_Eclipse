@@ -10,10 +10,10 @@ public class Main extends PApplet
 	public static final int numPlayers = 100; // number of players per generation to spawn
 	public static final int topPlayers = 10; // number of players to resurrect from the grave and breed from
 
-	public final int minLayers = 1;
-	public final int maxLayers = 1;
-	public final int minNodes = 1;
-	public final int maxNodes = 1;
+	public final int minLayers = 3;
+	public final int maxLayers = 3;
+	public final int minNodes = 3;
+	public final int maxNodes = 3;
 	// end modifyable values
 
 	// variables below this line should not be changed
@@ -73,7 +73,7 @@ public class Main extends PApplet
 		{
 			counter = 0;
 			next = (int) random(60f, 80f);
-			obstacles.add(new obstacle(width, height-20, -2f, 50f));
+			obstacles.add(new obstacle(width, height - 20, -2f, 50f));
 		}
 
 		background(0);

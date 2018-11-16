@@ -53,7 +53,7 @@ public class Line
 	void evolveLine()
 	{
 		weight = Functions.makeWeight();
-		
+
 	}
 
 	void destroyLine()
