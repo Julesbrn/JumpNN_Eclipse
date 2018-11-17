@@ -6,15 +6,15 @@ import processing.core.PApplet;
 
 public class Main extends PApplet
 {
-	// begin modifyable values
+	// begin modifiable values
 	public static final int numPlayers = 100; // number of players per generation to spawn
 	public static final int topPlayers = 10; // number of players to resurrect from the grave and breed from
 
-	public final int minLayers = 3;
+	public final int minLayers = 1;
 	public final int maxLayers = 3;
-	public final int minNodes = 3;
+	public final int minNodes = 1;
 	public final int maxNodes = 3;
-	// end modifyable values
+	// end modifiable values
 
 	// variables below this line should not be changed
 	public static ArrayList<player> population = new ArrayList<player>();
@@ -22,26 +22,39 @@ public class Main extends PApplet
 	public static ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 
 	int counter = 0;
-	int fr = 60; // math is frame based. Increasing this from 60 will not create smoother
-					// animation, it will only run faster
+	public static int fr = 60; // math is frame based. Increasing this from 60 will not create smoother
+	// animation, it will only run faster
 	public static int generation = 1;
 	int next = 0;
 
-	boolean show = false;
-	boolean turbo = false;
-	boolean showOb = true;
-	boolean showPl = true;
-	boolean showT = true;
-	boolean isSlow = false;
+	public static boolean show = false;
+	public static boolean turbo = false;
+	public static boolean showOb = true;
+	public static boolean showPl = true;
+	public static boolean showT = true;
+	public static boolean isSlow = false;
 
 	public final static float gravity = .5f; // half a pixel per frame gravity.
-	public final static float ground = 775; // Y coordinate of ground for collision
+	public final static float ground = 785; // Y coordinate of ground for collision
 
 	public static int counter2 = 0;
+
+	// public static Semaphore sem;
+	// public static Object lock;
+	// public static int num = 0;
+
+	public static boolean doGraveyard = false;
+	public static boolean doOffspring = false;
+
+	public static Window window;
 
 	public static void main(String[] args)
 	{
 		PApplet.main("main.Main");
+		// Main.sem = new Semaphore(1);
+		// Main.lock = new Object();
+		window = new Window();
+
 	}
 
 	public void settings()
@@ -68,16 +81,19 @@ public class Main extends PApplet
 
 	public void draw()
 	{
+		if (window != null) window.setLabels(population.size() + "", generation + "", fr + "", ((int) frameRate) + "");
 		counter++;
 		if (counter >= next)
 		{
 			counter = 0;
-			next = (int) random(60f, 80f);
-			obstacles.add(new obstacle(width, height - 20, -2f, 50f));
+			//next = (int) random(60f, 80f);
+			next = (int) random(30f, 40f);
+			obstacles.add(new obstacle(width, height - 20, -4f, 50f));
 		}
 
 		background(0);
-		if (showT)
+		
+		/*if (showT)
 			Functions.drawText(generation + "", 50, 50);
 		if (showT)
 			Functions.drawText(fr + "", 100, 50);
@@ -86,18 +102,11 @@ public class Main extends PApplet
 			Functions.drawText(turbo + "", 10, 50);
 		if (showT)
 			Functions.drawText(population.size() + "", 25, 25);
+			*/
 
 		fill(0, 0, 255);
 		rect(0, 790, 800, 10); // draw the ground
 		fill(255);
-
-		for (player pl : population)
-		{
-			synchronized (pl.run)
-			{
-				pl.run.notify(); // wake the blocked threads
-			}
-		}
 
 		for (player pl : population)// draw loop
 		{
@@ -119,10 +128,9 @@ public class Main extends PApplet
 					tmp.die();
 					graveYard.add(tmp);
 					population.remove(i);
-					synchronized (tmp.run)
-					{
-						tmp.run.notify();
-					}
+					/*
+					 * synchronized (tmp.run) { tmp.run.notify(); }
+					 */
 					break;
 				}
 			}
@@ -140,11 +148,90 @@ public class Main extends PApplet
 			if (showOb)
 				tmp.doDraw();
 			if (tmp.x <= 0)
-				obstacles.remove(i); // if this obstacle is off the screen, it doesnt matter
+				obstacles.remove(i); // if this obstacle is off the screen, it does not matter
+		}
+
+		// end of draw function
+		try
+		{
+
+			while (true)
+			{
+				/*
+				 * synchronized (Main.lock) { Main.lock.wait(); }
+				 */
+				Thread.sleep(0, 100); // my original solution was to use locks, but unfortunately notifys are not
+										// caught if a lock is not waiting, resulting in a deadlock. Each thread takes a
+										// few milliseconds to run, so waiting a millisecond does not adversely affect
+										// performance
+
+				boolean tmp = true;
+				for (player p : population)
+				{
+					if (p.alive && p.thread.isAlive() && p.isDone) // if player is alive, the thread is alive, and the
+																	// player is done, we are done
+					{
+						// do nothing
+					}
+					else
+					{
+						if (!p.alive || !p.thread.isAlive())
+						{
+							// do nothing
+						}
+						else
+						{
+							tmp = false;
+							break;
+						}
+
+					}
+				}
+				if (tmp)
+					break;
+
+				/*
+				 * Main.sem.acquire(); if (num <= 0) { Main.sem.release(); break;
+				 * 
+				 * } Main.sem.release();
+				 */
+
+			}
+
+			/*
+			 * Main.sem.acquire(); Main.num = population.size(); Main.sem.release();
+			 */
+			for (player p : population)
+			{
+				synchronized (p.run)
+				{
+					p.run.notify();
+				}
+			}
+
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
+		if (doGraveyard)
+		{
+			doGraveyard = false;
+			Functions.doGeneration_nograveyard();
+		}
+		if (doOffspring)
+		{
+			doOffspring = false;
+			for (int i = 0; i < 10; i++)
+			{
+				player tmp = new player(population.get(0), str(counter2++));
+				population.add(tmp);
+			}
 		}
 	}
 
-	public void keyPressed()
+	public void keyPressed_old() // migrated these functions to a jframe
 	{
 		if (key == 'p') // show/hide drawing the brain
 		{

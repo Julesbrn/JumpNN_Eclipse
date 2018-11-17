@@ -21,8 +21,10 @@ class player
 	float sizex = 10;
 	float sizey = 20;
 	float r, g, b;
+	float radius = 5;
 
 	String name;
+	boolean isDone = false;
 
 	player(String name, float posx, float posy, float velx, float vely, float r, float g, float b, int numNodes,
 			int numLayers)
@@ -108,7 +110,8 @@ class player
 	void doDraw()
 	{
 		Functions.p.fill(r, g, b);
-		Functions.p.rect(posx, posy, 10, 10);
+		// Functions.p.rect(posx, posy, 10, 10);
+		Functions.p.ellipse(posx, posy, 2 * radius, 2 * radius);
 	}
 
 	void doWork() // created from example code

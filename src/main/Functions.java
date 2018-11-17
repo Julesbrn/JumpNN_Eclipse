@@ -61,6 +61,35 @@ public class Functions
 		p.text(text, x, y);
 	}
 
+	public static boolean intersects(player circle, obstacle rect)
+	{
+		double circleDistancex = Math.abs(circle.posx - rect.x);
+		double circleDistancey = Math.abs(circle.posy - rect.y);
+
+		if (circleDistancex > (rect.sizex / 2 + circle.r))
+		{
+			return false;
+		}
+		if (circleDistancey > (rect.sizey / 2 + circle.r))
+		{
+			return false;
+		}
+
+		if (circleDistancex <= (rect.sizex / 2))
+		{
+			return true;
+		}
+		if (circleDistancey <= (rect.sizey / 2))
+		{
+			return true;
+		}
+
+		double cornerDistance_sq = Math.pow((circleDistancex - rect.sizex / 2), 2)
+				+ Math.pow((circleDistancey - rect.sizey / 2), 2);
+
+		return (cornerDistance_sq <= Math.pow(circle.radius, 2));
+	}
+
 	static boolean checkCollision(player p, obstacle o)
 	{
 		if (p == null || o == null)
@@ -146,6 +175,7 @@ public class Functions
 				Main.population.add(new player(tmp, Main.counter2++ + ""));
 			}
 		}
+
 	}
 
 	static void doGeneration()
@@ -198,6 +228,7 @@ public class Functions
 		}
 		Main.graveYard = new ArrayList<player>();
 		System.gc();
+
 	}
 
 	public static float clamp(float min, float max, float val)
