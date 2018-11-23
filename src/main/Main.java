@@ -7,13 +7,13 @@ import processing.core.PApplet;
 public class Main extends PApplet
 {
 	// begin modifiable values
-	public static final int numPlayers = 100; // number of players per generation to spawn
-	public static final int topPlayers = 10; // number of players to resurrect from the grave and breed from
+	public static int numPlayers = 100; // number of players per generation to spawn
+	public static int topPlayers = 10; // number of players to resurrect from the grave and breed from
 
-	public final int minLayers = 1;
-	public final int maxLayers = 3;
-	public final int minNodes = 1;
-	public final int maxNodes = 3;
+	public static int minLayers = 1;
+	public static int maxLayers = 3;
+	public static int minNodes = 1;
+	public static int maxNodes = 3;
 	// end modifiable values
 
 	// variables below this line should not be changed
@@ -26,6 +26,8 @@ public class Main extends PApplet
 	// animation, it will only run faster
 	public static int generation = 1;
 	int next = 0;
+	public static float minNext = 30f;
+	public static float maxNext = 40f;
 
 	public static boolean show = false;
 	public static boolean turbo = false;
@@ -48,7 +50,7 @@ public class Main extends PApplet
 
 	public static Window window;
 
-	public static void main(String[] args)
+	public void run()
 	{
 		PApplet.main("main.Main");
 		// Main.sem = new Semaphore(1);
@@ -87,7 +89,7 @@ public class Main extends PApplet
 		{
 			counter = 0;
 			//next = (int) random(60f, 80f);
-			next = (int) random(30f, 40f);
+			next = (int) random(minNext, maxNext);
 			obstacles.add(new obstacle(width, height - 20, -4f, 50f));
 		}
 
