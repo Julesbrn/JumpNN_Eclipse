@@ -6,7 +6,7 @@ This project was an experiment to applying a simple neural network to a player t
 To create a new generation and ensure the players will continue to evolve toward the goal, the best performing players will be chosen. The fittest players are given another chance and will be bred 9 times (single parent) for a total of 10 players per fittest player. This will ensure that a bad mutation will not ruin the chances of breading a successful generation.
 
 ## Getting Started
-This project relies on Processing with the Java plugin.  
+This project relies on the java version of Processing imported in Eclipse.  
 https://processing.org/tutorials/eclipse/  
 A compiled jar is provided in the root of the folder. JumpNN.jar
 
@@ -16,6 +16,9 @@ A-E have been removed in this version and replaced with a control panel
 F - The visual representation of the brain (inputs on the left, outputs on the right)  
 G - The players  
 H - The obstacles
+  
+  
+![initmenu](imgs/initmenu.png)  
 
 ## Demo
 ![preview.gif](imgs/preview.gif)  
